@@ -1,6 +1,21 @@
 #!/usr/bin/env python
 # a bar plot with errorbars
+
+from distutils.version import LooseVersion
 import matplotlib
+
+_mpl_ge_2_0 = LooseVersion(matplotlib.__version__) >= LooseVersion('2.0.0')
+
+if _mpl_ge_2_0:
+    # restore interface changes in 2.x so that we can compare plots with 1.4.3 directly
+    # 1. Lines no longer drawn around solid patches (pie chart segments, bars in bar graph)
+    matplotlib.rcParams['patch.force_edgecolor'] = True
+    matplotlib.rcParams['patch.facecolor'] = 'b'
+    # 2. No caps on error bars
+    matplotlib.rcParams['errorbar.capsize'] = 3
+    # 3. Different facecolor for figure
+    matplotlib.rcParams['figure.facecolor'] = 'lightgray'
+
 matplotlib.use('module://kivy.garden.matplotlib.backend_kivy')
 #matplotlib.use('Gtk')
 
